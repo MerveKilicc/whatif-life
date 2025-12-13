@@ -1,0 +1,72 @@
+{
+  "landing": {
+    "headline": "Bir karar her şeyi değiştirebilirdi.",
+    "subheadline": "Peki, değiştirdiğinde ne olacaktı?",
+    "cta": "Simülasyonu Başlat"
+  },
+  "input": {
+    "step_1_title": "Kozmik Kimlik",
+    "step_2_title": "Avatarın",
+    "step_3_title": "Kırılma Noktası",
+    "birthdate": "Doğum Tarihi",
+    "birthtime": "Doğum Saati",
+    "birthplace": "Doğum Yeri",
+    "unknown_time": "Bilmiyorum",
+    "name": "Adın (veya Takma Adın)",
+    "gender": "Cinsiyet",
+    "gender_female": "Kadın",
+    "gender_male": "Erkek",
+    "gender_neutral": "Belirtmek İstemiyorum",
+    "hair_color": "Saç Rengi",
+    "skin_tone": "Ten Rengi",
+    "category": "Kategori",
+    "category_love": "Aşk & İlişkiler",
+    "category_career": "Kariyer & İş",
+    "category_location": "Şehir/Ülke Değişikliği",
+    "category_education": "Eğitim",
+    "category_risk": "Riskli Seçim",
+    "choice_label": "Ne yapmıştın? / Ne yapabilirdin?",
+    "choice_placeholder": "Örn: O gün uçağa binmeseydim...",
+    "next": "Devam Et",
+    "back": "Geri",
+    "submit": "Simülasyonu Başlat"
+  },
+  "loading": {
+    "messages": [
+      "Yıldızlar konuşuyor...",
+      "Kader çizgileri beliriyor...",
+      "Paralel evren kapısı açılıyor...",
+      "Alternatif zaman çizelgesi oluşturuluyor..."
+    ]
+  },
+  "simulation": {
+    "next_period": "Sonraki Döneme Geç",
+    "end_simulation_early": "Bu Hikayeyi Sonlandır & Mektubu Oku",
+    "happiness": "Mutluluk",
+    "money": "Para",
+    "health": "Sağlık"
+  },
+  "final": {
+    "letter_title": "Paralel Evrenden Mektup",
+    "share": "Paylaş",
+    "new_simulation": "Yeni Simülasyon"
+  },
+  "errors": {
+    "api_fail": "Yıldızlar şu an sessiz... Birazdan tekrar dene",
+    "retry": "Tekrar Dene"
+  },
+  "zodiac": {
+    "aries": "Koç",
+    "taurus": "Boğa",
+    "gemini": "İkizler",
+    "cancer": "Yengeç",
+    "leo": "Aslan",
+    "virgo": "Başak",
+    "libra": "Terazi",
+    "scorpio": "Akrep",
+    "sagittarius": "Yay",
+    "capricorn": "Oğlak",
+    "aquarius": "Kova",
+    "pisces": "Balık"
+  }
+}
