@@ -10,6 +10,7 @@ interface BirthData {
 
 interface AvatarData {
   hairColor: string;
+  hairStyle: string;
   skinTone: string;
   gender: string;
   name: string;
@@ -50,11 +51,13 @@ interface SimulationState {
     health: number;
   };
   history: SimulationResponse[];
+  generatedAvatarUrl: string | null;
 
   setStep: (step: number) => void;
   setBirthData: (data: Partial<BirthData>) => void;
   setAvatarData: (data: Partial<AvatarData>) => void;
   setChoiceData: (data: Partial<ChoiceData>) => void;
+  setGeneratedAvatarUrl: (url: string) => void;
   
   setSimulationStart: (chapter: SimulationResponse) => void;
   addChapter: (chapter: SimulationResponse) => void;
@@ -73,6 +76,7 @@ export const useSimulationStore = create<SimulationState>()(
       },
       avatarData: {
         hairColor: 'brown',
+        hairStyle: 'wavy',
         skinTone: 'medium',
         gender: 'neutral',
         name: '',
@@ -85,6 +89,7 @@ export const useSimulationStore = create<SimulationState>()(
       currentChapter: null,
       stats: { happiness: 50, money: 50, health: 50 },
       history: [],
+      generatedAvatarUrl: null,
 
       setStep: (step) => set({ step }),
       setBirthData: (data) =>
@@ -93,6 +98,7 @@ export const useSimulationStore = create<SimulationState>()(
         set((state) => ({ avatarData: { ...state.avatarData, ...data } })),
       setChoiceData: (data) =>
         set((state) => ({ choiceData: { ...state.choiceData, ...data } })),
+      setGeneratedAvatarUrl: (url) => set({ generatedAvatarUrl: url }),
       
       setSimulationStart: (chapter) => set((state) => {
         // Apply initial stat changes (relative to base 50)

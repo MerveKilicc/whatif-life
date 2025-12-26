@@ -68,6 +68,13 @@ export default function SimulationPage() {
 
   return (
     <div className="min-h-screen bg-[#16213e] text-white flex flex-col items-center relative overflow-hidden">
+      {/* Background Image */}
+      <img 
+        src="https://image.pollinations.ai/prompt/minimalist%20dark%20blue%20astrology%20chart%20texture%20zodiac%20constellations%20subtle%20elegant?width=1080&height=1920&nologo=true"
+        alt="Simulation Background"
+        className="absolute inset-0 w-full h-full object-cover opacity-20 z-0 pointer-events-none"
+      />
+
       {/* Top Bar - Stats */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-[#16213e]/90 backdrop-blur-md border-b border-gray-800 p-4 flex justify-center gap-4 shadow-lg">
         <StatBar label={t("happiness")} value={stats.happiness} icon={Heart} color="#ec4899" />

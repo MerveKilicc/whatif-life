@@ -3,13 +3,30 @@
 import { useSimulationStore } from "@/stores/simulationStore";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
+import AvatarPreview from "./AvatarPreview"; // Import the new component
 
 export default function AvatarForm() {
   const t = useTranslations("input");
   const { avatarData, setAvatarData } = useSimulationStore();
 
-  const hairColors = ["black", "brown", "blonde", "red", "white", "colorful"];
-  const skinTones = ["light", "medium", "dark"];
+  const hairStyles = ["straight", "wavy", "curly", "short", "long", "bald"];
+  const hairColors = ["black", "brown", "blonde", "red", "auburn", "gray"];
+  const skinTones = ["pale", "fair", "medium", "olive", "dark"];
+
+  // Helper for color codes (visual representation)
+  const colorMap: Record<string, string> = {
+    black: "#000000",
+    brown: "#4a3b2a",
+    blonde: "#e6c288",
+    red: "#b93b2a",
+    auburn: "#914232",
+    gray: "#9e9e9e",
+    pale: "#fceadd",
+    fair: "#f5d0b0",
+    medium: "#c58c85",
+    olive: "#a67b5b",
+    dark: "#5c3a3a",
+  };
 
   return (
     <motion.div
@@ -19,6 +36,8 @@ export default function AvatarForm() {
       className="flex flex-col gap-6 w-full max-w-md"
     >
       <h2 className="text-2xl font-serif text-[#ffd700] mb-4">{t("step_2_title")}</h2>
+      
+      <AvatarPreview />
 
       <div className="flex flex-col gap-2">
         <label className="text-sm text-gray-300">{t("name")}</label>
@@ -50,17 +69,36 @@ export default function AvatarForm() {
       </div>
 
       <div className="flex flex-col gap-2">
+        <label className="text-sm text-gray-300">{t("hair_style")}</label>
+        <div className="grid grid-cols-3 gap-2">
+          {hairStyles.map((style) => (
+            <button
+              key={style}
+              onClick={() => setAvatarData({ hairStyle: style })}
+              className={`p-2 rounded-lg border text-sm transition-all ${
+                avatarData.hairStyle === style
+                  ? "border-[#ffd700] bg-[#ffd700]/10 text-[#ffd700]"
+                  : "border-gray-600 text-gray-400 hover:border-gray-400"
+              }`}
+            >
+              {t(`style_${style}`)}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-2">
         <label className="text-sm text-gray-300">{t("hair_color")}</label>
         <div className="flex gap-2 flex-wrap">
           {hairColors.map((color) => (
             <button
               key={color}
               onClick={() => setAvatarData({ hairColor: color })}
+              title={t(`color_${color}`)}
               className={`w-10 h-10 rounded-full border-2 transition-all ${
                 avatarData.hairColor === color ? "border-[#ffd700] scale-110" : "border-transparent opacity-70 hover:opacity-100"
               }`}
-              style={{ backgroundColor: color === 'colorful' ? 'purple' : color }}
-              aria-label={color}
+              style={{ backgroundColor: colorMap[color] }}
             />
           ))}
         </div>
@@ -68,18 +106,16 @@ export default function AvatarForm() {
 
       <div className="flex flex-col gap-2">
         <label className="text-sm text-gray-300">{t("skin_tone")}</label>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
            {skinTones.map((tone) => (
             <button
               key={tone}
               onClick={() => setAvatarData({ skinTone: tone })}
+              title={t(`tone_${tone}`)}
               className={`w-10 h-10 rounded-full border-2 transition-all ${
                 avatarData.skinTone === tone ? "border-[#ffd700] scale-110" : "border-transparent opacity-70 hover:opacity-100"
               }`}
-              style={{ 
-                backgroundColor: tone === 'light' ? '#f5d0b0' : tone === 'medium' ? '#c58c85' : '#5c3a3a' 
-              }}
-              aria-label={tone}
+              style={{ backgroundColor: colorMap[tone] }}
             />
           ))}
         </div>

@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import BirthForm from "@/components/simulation/BirthForm";
 import AvatarForm from "@/components/simulation/AvatarForm";
 import ChoiceForm from "@/components/simulation/ChoiceForm";
+import ZodiacDisplay from "@/components/simulation/ZodiacDisplay"; // Import the new component
 import { useSimulationStore } from "@/stores/simulationStore";
 
 export default function InputPage() {
@@ -15,11 +16,19 @@ export default function InputPage() {
   const [step, setStep] = useState(1);
   const { birthData, avatarData, choiceData } = useSimulationStore();
 
+  // Check if birthData is complete for showing ZodiacDisplay
+  const isBirthDataComplete = birthData.date && (birthData.time || birthData.isTimeUnknown) && birthData.place;
+
   const handleNext = () => {
-    if (step === 1 && (!birthData.date || (!birthData.time && !birthData.isTimeUnknown) || !birthData.place)) {
-      alert("Lütfen tüm alanları doldurun."); // Basic validation
+    if (step === 1) {
+      if (!birthData.date || (!birthData.time && !birthData.isTimeUnknown) || !birthData.place) {
+        alert("Lütfen tüm doğum verilerini doldurun.");
+        return;
+      }
+      setStep(step + 1); // Only move to next step if BirthData is complete
       return;
     }
+    
     if (step === 2 && !avatarData.name) {
       alert("Lütfen bir isim girin.");
       return;
@@ -68,6 +77,8 @@ export default function InputPage() {
             {step === 2 && <AvatarForm key="step2" />}
             {step === 3 && <ChoiceForm key="step3" />}
          </AnimatePresence>
+
+         {step === 1 && isBirthDataComplete && <ZodiacDisplay />} {/* Render ZodiacDisplay here */}
 
          <div className="flex gap-4 mt-8">
            <button
