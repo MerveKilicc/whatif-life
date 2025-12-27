@@ -90,6 +90,22 @@ async function executeWithRetry<T>(
     throw lastError || new Error(`All API keys and models failed for ${operationName}`);
 }
 
+export interface SimulationResponse {
+  title: string;
+  period: string;
+  age: number;
+  story_text: string;
+  stats_change: {
+    happiness: number;
+    money: number;
+    health: number;
+  };
+  mini_choice?: {
+    question: string;
+    options: string[];
+  };
+}
+
 export async function startSimulation(
   name: string,
   birthYear: number,

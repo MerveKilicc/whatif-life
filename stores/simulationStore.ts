@@ -131,11 +131,12 @@ export const useSimulationStore = create<SimulationState>()(
         set({
           step: 1,
           birthData: { date: '', time: '', isTimeUnknown: false, place: '' },
-          avatarData: { hairColor: 'brown', skinTone: 'medium', gender: 'neutral', name: '' },
+          avatarData: { hairColor: 'brown', hairStyle: 'straight', skinTone: 'medium', gender: 'neutral', name: '' },
           choiceData: { category: 'love', text: '' },
           currentChapter: null,
           stats: { happiness: 50, money: 50, health: 50 },
           history: [],
+          generatedAvatarUrl: null,
         }),
     }),
     {

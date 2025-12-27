@@ -36,7 +36,7 @@ export default function ZodiacDisplay() {
     { label: "Güneş", sign: natalChart.sun },
     { label: "Ay", sign: natalChart.moon },
     { label: "Yükselen", sign: natalChart.rising },
-  ].filter(item => item.sign !== null); // Filter out Rising if unknown
+  ].filter((item): item is { label: string; sign: string } => item.sign !== null); // Type guard filter
 
   return (
     <motion.div

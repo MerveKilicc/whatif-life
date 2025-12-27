@@ -88,23 +88,23 @@ export default function SimulationPage() {
       <div className="w-full max-w-2xl px-6 pt-28 pb-32 flex flex-col gap-8 z-10">
         
         <motion.div
-            key={currentChapter.title}
+            key={currentChapter?.title}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="flex flex-col gap-4"
         >
             <div className="flex items-baseline justify-between text-[#ffd700] font-serif border-b border-gray-700 pb-2 mb-2">
-                <h1 className="text-2xl">{currentChapter.title}</h1>
-                <span className="text-sm opacity-80">{currentChapter.period} (Age: {currentChapter.age})</span>
+                <h1 className="text-2xl">{currentChapter?.title}</h1>
+                <span className="text-sm opacity-80">{currentChapter?.period} (Age: {currentChapter?.age})</span>
             </div>
             
             <p className="text-lg leading-relaxed text-gray-200 font-light whitespace-pre-line">
-                {currentChapter.story_text}
+                {currentChapter?.story_text}
             </p>
 
             {/* Stat Changes Feedback */}
             <div className="flex gap-4 text-xs mt-2 opacity-60">
-                {Object.entries(currentChapter.stats_change).map(([key, val]) => (
+                {currentChapter?.stats_change && Object.entries(currentChapter.stats_change).map(([key, val]) => (
                     val !== 0 && (
                         <span key={key} className={val > 0 ? "text-green-400" : "text-red-400"}>
                             {key.charAt(0).toUpperCase() + key.slice(1)}: {val > 0 ? "+" : ""}{val}
@@ -135,7 +135,7 @@ export default function SimulationPage() {
                 ) : (
                     /* Normal Flow */
                     <>
-                        {currentChapter.mini_choice ? (
+                        {currentChapter?.mini_choice ? (
                             <>
                                 <p className="text-center text-[#ffd700] mb-2 font-medium">{currentChapter.mini_choice.question}</p>
                                 <div className="grid grid-cols-1 gap-3">
