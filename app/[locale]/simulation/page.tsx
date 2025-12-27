@@ -64,7 +64,9 @@ export default function SimulationPage() {
     }
   };
 
-  if (!currentChapter) return null;
+  // Constants
+  const MAX_CHAPTERS = 5;
+  const isSimulationComplete = history.length >= MAX_CHAPTERS;
 
   return (
     <div className="min-h-screen bg-[#16213e] text-white flex flex-col items-center relative overflow-hidden">
@@ -83,13 +85,8 @@ export default function SimulationPage() {
       </div>
 
       {/* Main Content Area */}
-      <div className="w-full max-w-2xl px-6 pt-28 pb-32 flex flex-col gap-8">
+      <div className="w-full max-w-2xl px-6 pt-28 pb-32 flex flex-col gap-8 z-10">
         
-        {/* Previous History (Optional: Could be collapsible, but here showing just current chapter for focus) */}
-        {/* Ideally, we might want to show a scrollable list of chapters. 
-            For now, let's just show the CURRENT chapter prominently. 
-        */}
-
         <motion.div
             key={currentChapter.title}
             initial={{ opacity: 0, y: 20 }}
@@ -126,37 +123,52 @@ export default function SimulationPage() {
             <div className="text-[#ffd700] animate-pulse font-serif">Kader çizgileri yeniden yazılıyor...</div>
         ) : (
             <div className="w-full max-w-lg flex flex-col gap-3">
-                {currentChapter.mini_choice ? (
-                    <>
-                        <p className="text-center text-[#ffd700] mb-2 font-medium">{currentChapter.mini_choice.question}</p>
-                        <div className="grid grid-cols-1 gap-3">
-                            {currentChapter.mini_choice.options.map((option, idx) => (
-                                <button
-                                    key={idx}
-                                    onClick={() => handleChoice(option)}
-                                    className="w-full py-4 px-6 bg-[#533483] hover:bg-[#6b42a9] rounded-xl text-white font-medium transition-all transform hover:scale-[1.02] shadow-lg border border-[#ffffff10]"
-                                >
-                                    {option}
-                                </button>
-                            ))}
-                        </div>
-                    </>
-                ) : (
-                    <button
-                        onClick={() => handleChoice(null)}
-                        className="w-full py-4 px-6 bg-[#ffd700] hover:bg-[#ffed4a] text-[#16213e] rounded-full font-bold text-lg transition-all transform hover:scale-[1.02] shadow-[0_0_20px_rgba(255,215,0,0.3)] flex items-center justify-center gap-2"
-                    >
-                        {t("next_period")} <ArrowRight size={20} />
-                    </button>
-                )}
                 
-                {history.length > 2 && (
+                {/* Max Chapter Limit Reached - Force End */}
+                {isSimulationComplete ? (
                     <button
                         onClick={() => router.push(`/${locale}/final`)}
-                        className="text-xs text-gray-400 hover:text-[#ffd700] underline mt-2"
+                        className="w-full py-4 px-6 bg-[#ffd700] hover:bg-[#ffed4a] text-[#16213e] rounded-full font-bold text-lg transition-all transform hover:scale-[1.02] shadow-[0_0_20px_rgba(255,215,0,0.5)] flex items-center justify-center gap-2 animate-bounce"
                     >
-                        {t("end_simulation_early") || "Bu Hikayeyi Sonlandır & Mektubu Oku"}
+                        {t("end_simulation_early") || "Hikayeyi Tamamla & Mektubu Oku"} <ArrowRight size={20} />
                     </button>
+                ) : (
+                    /* Normal Flow */
+                    <>
+                        {currentChapter.mini_choice ? (
+                            <>
+                                <p className="text-center text-[#ffd700] mb-2 font-medium">{currentChapter.mini_choice.question}</p>
+                                <div className="grid grid-cols-1 gap-3">
+                                    {currentChapter.mini_choice.options.map((option, idx) => (
+                                        <button
+                                            key={idx}
+                                            onClick={() => handleChoice(option)}
+                                            className="w-full py-4 px-6 bg-[#533483] hover:bg-[#6b42a9] rounded-xl text-white font-medium transition-all transform hover:scale-[1.02] shadow-lg border border-[#ffffff10]"
+                                        >
+                                            {option}
+                                        </button>
+                                    ))}
+                                </div>
+                            </>
+                        ) : (
+                            <button
+                                onClick={() => handleChoice(null)}
+                                className="w-full py-4 px-6 bg-[#ffd700] hover:bg-[#ffed4a] text-[#16213e] rounded-full font-bold text-lg transition-all transform hover:scale-[1.02] shadow-[0_0_20px_rgba(255,215,0,0.3)] flex items-center justify-center gap-2"
+                            >
+                                {t("next_period")} <ArrowRight size={20} />
+                            </button>
+                        )}
+                        
+                        {/* Early Exit Option (only if not finished yet) */}
+                        {history.length > 2 && (
+                            <button
+                                onClick={() => router.push(`/${locale}/final`)}
+                                className="text-xs text-gray-400 hover:text-[#ffd700] underline mt-2"
+                            >
+                                {t("end_simulation_early") || "Bu Hikayeyi Sonlandır & Mektubu Oku"}
+                            </button>
+                        )}
+                    </>
                 )}
             </div>
         )}
