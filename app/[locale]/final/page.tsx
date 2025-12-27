@@ -7,7 +7,7 @@ import { generateFinalLetterAction } from "@/app/actions";
 import { useTranslations, useLocale } from "next-intl";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import download from 'downloadjs';
+// import download from 'downloadjs'; // Removed top-level import
 import ShareCard from "@/components/simulation/ShareCard";
 import { Download, Share2 } from "lucide-react";
 
@@ -52,9 +52,10 @@ export default function FinalPage() {
     router.push("/");
   };
 
-  const handleDownloadLetter = useCallback(() => {
+  const handleDownloadLetter = useCallback(async () => {
     if (letter) {
-      download(letter, 'whatif-life-letter.txt', 'text/plain');
+      const download = await import('downloadjs'); // Dynamic import here
+      download.default(letter, 'whatif-life-letter.txt', 'text/plain');
     }
   }, [letter]);
 
