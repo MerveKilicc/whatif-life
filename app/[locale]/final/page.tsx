@@ -7,7 +7,6 @@ import { generateFinalLetterAction } from "@/app/actions";
 import { useTranslations, useLocale } from "next-intl";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { toPng } from 'html-to-image';
 import download from 'downloadjs';
 import ShareCard from "@/components/simulation/ShareCard";
 import { Download, Share2 } from "lucide-react";
@@ -19,9 +18,8 @@ export default function FinalPage() {
   const { avatarData, birthData, history, stats, reset } = useSimulationStore();
   const [letter, setLetter] = useState<string>("");
   const [loading, setLoading] = useState(true);
-  const [isDownloading, setIsDownloading] = useState(false);
   
-  const cardRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null); // Still need this for ShareCard prop but not for download
 
   useEffect(() => {
     if (history.length === 0) {
@@ -54,25 +52,11 @@ export default function FinalPage() {
     router.push("/");
   };
 
-  const handleDownload = useCallback(async () => {
-    if (cardRef.current === null) {
-      return;
+  const handleDownloadLetter = useCallback(() => {
+    if (letter) {
+      download(letter, 'whatif-life-letter.txt', 'text/plain');
     }
-    setIsDownloading(true);
-
-    try {
-        const dataUrl = await toPng(cardRef.current, { 
-            cacheBust: true, 
-            pixelRatio: 2,
-        });
-        download(dataUrl, 'whatif-life-card.png');
-    } catch (err) {
-        console.error('Failed to download image', err);
-        alert("Kart oluşturulamadı :(");
-    } finally {
-        setIsDownloading(false);
-    }
-  }, [cardRef]);
+  }, [letter]);
 
   return (
     <div className="min-h-screen bg-[#16213e] text-white flex flex-col items-center justify-center p-6 relative overflow-hidden">
@@ -109,17 +93,23 @@ export default function FinalPage() {
                 <div className="whitespace-pre-line text-lg leading-[1.2rem]">
                     {letter}
                 </div>
-                <div className="mt-8 flex justify-center">
+                <div className="mt-8 flex justify-center gap-4">
                     <button 
                         onClick={handleReset}
                         className="px-6 py-3 bg-[#16213e] text-white font-sans font-bold rounded hover:bg-[#2a3b5e] transition-colors"
                     >
                         {t("new_simulation")}
                     </button>
+                    <button 
+                        onClick={handleDownloadLetter}
+                        className="px-6 py-3 bg-[#ffd700] text-[#16213e] font-sans font-bold rounded hover:bg-[#ffed4a] transition-colors flex items-center gap-2"
+                    >
+                        <Download size={20} /> Mektubu İndir
+                    </button>
                 </div>
             </motion.div>
 
-            {/* Share Card Section */}
+            {/* Share Card Section - No Download Button Here */}
             <motion.div 
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -129,21 +119,6 @@ export default function FinalPage() {
                 <div className="bg-black/30 p-4 rounded-2xl backdrop-blur-sm border border-white/10">
                     <ShareCard ref={cardRef} />
                 </div>
-                
-                <button
-                    onClick={handleDownload}
-                    disabled={isDownloading}
-                    className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-[#ffd700] text-[#16213e] font-bold rounded-xl hover:bg-[#ffed4a] transition-all transform hover:scale-105 shadow-lg disabled:opacity-50"
-                >
-                    {isDownloading ? (
-                        <span className="animate-pulse">Oluşturuluyor...</span>
-                    ) : (
-                        <>
-                            <Download size={20} />
-                            Kartı İndir & Paylaş
-                        </>
-                    )}
-                </button>
             </motion.div>
 
         </div>

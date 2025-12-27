@@ -94,6 +94,23 @@ export default function InputPage() {
              {step === 3 ? t("submit") : t("next")}
            </button>
          </div>
+
+         {/* Hard Reset Button for Debugging */}
+         <button 
+            onClick={async () => {
+                if (!confirm("TÜM veriler silinecek ve uygulama sıfırlanacak. Emin misin?")) return;
+                try {
+                    localStorage.clear();
+                    sessionStorage.clear();
+                    const dbs = await window.indexedDB.databases();
+                    dbs.forEach(db => { if (db.name) window.indexedDB.deleteDatabase(db.name) });
+                } catch(e) { console.error(e) }
+                window.location.reload();
+            }}
+            className="text-[10px] text-red-500/50 hover:text-red-500 mt-4 text-center w-full underline cursor-pointer"
+         >
+            ⚠️ Uygulamayı ve Verileri Sıfırla
+         </button>
        </div>
     </main>
   );
