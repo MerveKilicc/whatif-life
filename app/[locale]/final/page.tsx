@@ -52,10 +52,22 @@ export default function FinalPage() {
     router.push("/");
   };
 
-  const handleDownloadLetter = useCallback(async () => {
-    if (letter) {
-      const download = await import('downloadjs'); // Dynamic import here
-      download.default(letter, 'whatif-life-letter.txt', 'text/plain');
+  const handleDownloadLetter = useCallback(() => {
+    if (!letter) return;
+
+    try {
+      const blob = new Blob([letter], { type: 'text/plain' });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'whatif-life-mektup.txt';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Mektup indirilemedi:", error);
+      alert("İndirme sırasında bir hata oluştu.");
     }
   }, [letter]);
 
