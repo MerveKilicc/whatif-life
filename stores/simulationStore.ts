@@ -42,7 +42,7 @@ interface SimulationState {
   birthData: BirthData;
   avatarData: AvatarData;
   choiceData: ChoiceData;
-  
+
   // Active Simulation State
   currentChapter: SimulationResponse | null;
   stats: {
@@ -52,13 +52,15 @@ interface SimulationState {
   };
   history: SimulationResponse[];
   generatedAvatarUrl: string | null;
+  finalLetter: string | null;
 
   setStep: (step: number) => void;
   setBirthData: (data: Partial<BirthData>) => void;
   setAvatarData: (data: Partial<AvatarData>) => void;
   setChoiceData: (data: Partial<ChoiceData>) => void;
   setGeneratedAvatarUrl: (url: string) => void;
-  
+  setFinalLetter: (letter: string) => void;
+
   setSimulationStart: (chapter: SimulationResponse) => void;
   addChapter: (chapter: SimulationResponse) => void;
   reset: () => void;
@@ -85,11 +87,12 @@ export const useSimulationStore = create<SimulationState>()(
         category: 'love',
         text: '',
       },
-      
+
       currentChapter: null,
       stats: { happiness: 50, money: 50, health: 50 },
       history: [],
       generatedAvatarUrl: null,
+      finalLetter: null,
 
       setStep: (step) => set({ step }),
       setBirthData: (data) =>
@@ -99,31 +102,32 @@ export const useSimulationStore = create<SimulationState>()(
       setChoiceData: (data) =>
         set((state) => ({ choiceData: { ...state.choiceData, ...data } })),
       setGeneratedAvatarUrl: (url) => set({ generatedAvatarUrl: url }),
-      
+      setFinalLetter: (letter) => set({ finalLetter: letter }),
+
       setSimulationStart: (chapter) => set((state) => {
         // Apply initial stat changes (relative to base 50)
         const newStats = {
-            happiness: Math.min(100, Math.max(0, 50 + chapter.stats_change.happiness)),
-            money: Math.min(100, Math.max(0, 50 + chapter.stats_change.money)),
-            health: Math.min(100, Math.max(0, 50 + chapter.stats_change.health)),
+          happiness: Math.min(100, Math.max(0, 50 + chapter.stats_change.happiness)),
+          money: Math.min(100, Math.max(0, 50 + chapter.stats_change.money)),
+          health: Math.min(100, Math.max(0, 50 + chapter.stats_change.health)),
         };
         return {
-            currentChapter: chapter,
-            stats: newStats,
-            history: [chapter]
+          currentChapter: chapter,
+          stats: newStats,
+          history: [chapter]
         };
       }),
 
       addChapter: (chapter) => set((state) => {
         const newStats = {
-            happiness: Math.min(100, Math.max(0, state.stats.happiness + chapter.stats_change.happiness)),
-            money: Math.min(100, Math.max(0, state.stats.money + chapter.stats_change.money)),
-            health: Math.min(100, Math.max(0, state.stats.health + chapter.stats_change.health)),
+          happiness: Math.min(100, Math.max(0, state.stats.happiness + chapter.stats_change.happiness)),
+          money: Math.min(100, Math.max(0, state.stats.money + chapter.stats_change.money)),
+          health: Math.min(100, Math.max(0, state.stats.health + chapter.stats_change.health)),
         };
         return {
-            currentChapter: chapter,
-            stats: newStats,
-            history: [...state.history, chapter]
+          currentChapter: chapter,
+          stats: newStats,
+          history: [...state.history, chapter]
         };
       }),
 
@@ -137,6 +141,7 @@ export const useSimulationStore = create<SimulationState>()(
           stats: { happiness: 50, money: 50, health: 50 },
           history: [],
           generatedAvatarUrl: null,
+          finalLetter: null,
         }),
     }),
     {

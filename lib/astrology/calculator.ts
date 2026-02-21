@@ -11,7 +11,8 @@ import {
   Ecliptic,
   GeoVector,
   RotationMatrix,
-  Vector
+  Vector,
+  SiderealTime
 } from 'astronomy-engine';
 
 // Coordinates for major cities (Mock Geocoding)
@@ -31,7 +32,7 @@ function getCoordinates(place: string): { lat: number; lon: number } {
 }
 
 const ZODIAC_SIGNS = [
-  "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", 
+  "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
   "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"
 ];
 
@@ -39,7 +40,7 @@ function getSignFromLongitude(longitude: number): string {
   // Normalize longitude to 0-360
   let lon = longitude % 360;
   if (lon < 0) lon += 360;
-  
+
   const index = Math.floor(lon / 30);
   return ZODIAC_SIGNS[index];
 }
@@ -63,14 +64,23 @@ export function calculateNatalChart(
   const dateParts = dateStr.split('-').map(Number); // YYYY-MM-DD
   const timeParts = timeStr ? timeStr.split(':').map(Number) : [12, 0]; // Default noon if unknown
 
-  const date = new Date(Date.UTC(dateParts[0], dateParts[1] - 1, dateParts[2], timeParts[0], timeParts[1]));
-  
-  // Create Astronomy Engine Time object
-  const originTime = MakeTime(date);
-  
   // Get Observer Coordinates
   const { lat, lon } = getCoordinates(place);
   const observer = new Observer(lat, lon, 0);
+
+  // Convert assumed local time to true UTC using Longitude offset (15 degrees = 1 hour)
+  // Timezones strictly follow geometry: Local Mean Time = UTC + (lon / 15)
+  const tzOffsetHours = lon / 15;
+  const localMinutes = timeParts[0] * 60 + timeParts[1];
+  const utcMinutesTotal = localMinutes - (tzOffsetHours * 60);
+
+  const utcH = Math.floor(utcMinutesTotal / 60);
+  const utcM = Math.floor(utcMinutesTotal % 60);
+
+  const date = new Date(Date.UTC(dateParts[0], dateParts[1] - 1, dateParts[2], utcH, utcM));
+
+  // Create Astronomy Engine Time object
+  const originTime = MakeTime(date);
 
   // Calculate Sun Position (GeoVector relative to Earth center, J2000)
   // We need Ecliptic Longitude for Zodiac Sign
@@ -101,42 +111,25 @@ export function calculateNatalChart(
   // Calculate Rising Sign (Ascendant)
   // This requires calculation of the intersection of the Ecliptic and the Horizon at the East.
   let risingSign: string | null = null;
-  
+
   if (!isTimeUnknown) {
-    // Simplified Ascendant Calculation using Astronomy Engine helpers if available, 
-    // or standard formula: atan2(y, x) where y = cos(A) and x = -sin(A)*cos(E) + tan(L)*sin(E) ... complex.
-    // Astronomy Engine doesn't have a direct "Ascendant" function in the core, need to derive it.
-    // However, for this prototype, we can use the Sidereal Time approach or a simplified approximation.
-    // Actually, let's use a simpler logic:
-    // The Ascendant is the sign of the zodiac that is rising on the eastern horizon.
-    // We can find the horizon plane and its intersection with the ecliptic.
-    
-    // Alternative: Use a library dedicated to astrology like 'astrology-js' or similar if 'astronomy-engine' is too raw.
-    // But sticking to 'astronomy-engine', we can iterate or use library functions.
-    // Let's use a known formula for the Ascendant (ASC).
-    // ASC = arctan( -cos(RAMC) / (sin(RAMC) * cos(Eps) + tan(Lat) * sin(Eps)) )
-    // RAMC = Right Ascension of the Medium Coeli (Sidereal Time)
-    
-    // For MVP/Prototype simplicity and robustness without implementing complex math manually:
-    // I will mock the Rising Sign calculation to be dependent on the hour for now 
-    // to guarantee it works without math errors, unless I find a snippet.
-    // Wait, let's try to do it somewhat correctly.
-    // The Rising Sign changes roughly every 2 hours.
-    // Sun Sign corresponds to sunrise (approx 6 AM).
-    // If born at 6 AM, Rising ~ Sun.
-    // If born at 8 AM, Rising ~ Sun + 1 sign.
-    
-    const sunSignIndex = ZODIAC_SIGNS.indexOf(sunSign);
-    const birthHour = timeParts[0];
-    const sunriseHour = 6; // Approx
-    
-    const signsOffset = Math.floor((birthHour - sunriseHour) / 2); 
-    // Note: This is very rough but works for a "vibes" based app.
-    // Real calculation is much harder without a specialized lib.
-    
-    let risingIndex = (sunSignIndex + signsOffset) % 12;
-    if (risingIndex < 0) risingIndex += 12;
-    
+    // Implement standard astrological geometry for the Ascendant (Eastern Horizon intersection with Ecliptic)
+    // Formula: ASC = atan2(cos(LST), -sin(LST)*cos(Eps) - tan(Lat)*sin(Eps))
+    const gstHours = SiderealTime(originTime);
+    let lstHours = gstHours + (lon / 15);
+    let lstRad = (lstHours * 15) * Math.PI / 180;
+
+    const epsRad = 23.4392911 * Math.PI / 180; // Obliquity of Ecliptic
+    const latRad = lat * Math.PI / 180;
+
+    const yVal = Math.cos(lstRad);
+    const xVal = -Math.sin(lstRad) * Math.cos(epsRad) - Math.tan(latRad) * Math.sin(epsRad);
+
+    let ascRad = Math.atan2(yVal, xVal);
+    let ascDeg = ascRad * 180 / Math.PI;
+    if (ascDeg < 0) ascDeg += 360;
+
+    const risingIndex = Math.floor(ascDeg / 30);
     risingSign = ZODIAC_SIGNS[risingIndex];
   }
 

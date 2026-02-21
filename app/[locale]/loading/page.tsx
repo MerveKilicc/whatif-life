@@ -14,8 +14,10 @@ export default function LoadingPage() {
   const router = useRouter();
   const { birthData, avatarData, choiceData, setSimulationStart } = useSimulationStore();
   const [statusMessage, setStatusMessage] = useState(t("messages.0"));
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
     let isMounted = true;
 
     async function init() {
@@ -39,9 +41,9 @@ export default function LoadingPage() {
       // 2. Call AI
       if (!isMounted) return;
       setStatusMessage(t("messages.3"));
-      
+
       const birthYear = new Date(birthData.date).getFullYear();
-      
+
       try {
         const result = await startSimulationAction(
           avatarData.name,
@@ -51,12 +53,12 @@ export default function LoadingPage() {
         );
 
         if (result.success && result.data) {
-           setSimulationStart(result.data);
-           router.push(`/${locale}/simulation`);
+          setSimulationStart(result.data);
+          router.push(`/${locale}/simulation`);
         } else {
-           // Handle Error
-           alert("Simulation failed. Please try again.");
-           router.push(`/${locale}/input`);
+          // Handle Error
+          alert("Simulation failed. Please try again.");
+          router.push(`/${locale}/input`);
         }
 
       } catch (error) {
@@ -67,28 +69,30 @@ export default function LoadingPage() {
     }
 
     if (birthData.date) {
-        init();
+      init();
     } else {
-        router.push(`/${locale}/input`);
+      router.push(`/${locale}/input`);
     }
 
     return () => { isMounted = false; };
   }, [birthData, avatarData, choiceData, router, setSimulationStart, t, locale]);
 
+  if (!isClient) return null;
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#16213e] text-white p-8 text-center relative overflow-hidden">
       {/* Background Image */}
-      <img 
+      <img
         src="https://image.pollinations.ai/prompt/minimalist%20dark%20blue%20astrology%20chart%20texture%20zodiac%20constellations%20subtle%20elegant?width=1080&height=1920&nologo=true"
         alt="Loading Background"
         className="absolute inset-0 w-full h-full object-cover opacity-40 z-0"
       />
-      
+
       {/* Background stars (simple CSS/SVG) - Keeping as overlay */}
       <div className="absolute inset-0 opacity-30 pointer-events-none z-0">
-          <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-white rounded-full animate-pulse"/>
-          <div className="absolute top-3/4 left-1/3 w-1 h-1 bg-white rounded-full animate-pulse delay-75"/>
-          <div className="absolute top-1/2 left-2/3 w-1 h-1 bg-white rounded-full animate-pulse delay-150"/>
+        <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-white rounded-full animate-pulse" />
+        <div className="absolute top-3/4 left-1/3 w-1 h-1 bg-white rounded-full animate-pulse delay-75" />
+        <div className="absolute top-1/2 left-2/3 w-1 h-1 bg-white rounded-full animate-pulse delay-150" />
       </div>
 
       <motion.div
