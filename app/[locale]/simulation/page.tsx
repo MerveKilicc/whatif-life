@@ -77,6 +77,7 @@ export default function SimulationPage() {
                 src="https://image.pollinations.ai/prompt/minimalist%20dark%20blue%20astrology%20chart%20texture%20zodiac%20constellations%20subtle%20elegant?width=1080&height=1920&nologo=true&seed=42"
                 alt="Simulation Background"
                 className="absolute inset-0 w-full h-full object-cover opacity-20 z-0 pointer-events-none"
+                referrerPolicy="no-referrer"
             />
 
             {/* Top Bar - Stats */}

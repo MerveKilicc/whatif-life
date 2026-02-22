@@ -57,6 +57,7 @@ const ShareCard = forwardRef<HTMLDivElement>((props, ref) => {
         src="https://image.pollinations.ai/prompt/minimalist%20dark%20blue%20astrology%20chart%20texture%20zodiac%20constellations%20subtle%20elegant?width=512&height=800&nologo=true&seed=42"
         alt="bg"
         className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none z-0"
+        referrerPolicy="no-referrer"
       />
 
       {/* Header */}

@@ -86,6 +86,7 @@ export default function LoadingPage() {
         src="https://image.pollinations.ai/prompt/minimalist%20dark%20blue%20astrology%20chart%20texture%20zodiac%20constellations%20subtle%20elegant?width=1080&height=1920&nologo=true&seed=42"
         alt="Loading Background"
         className="absolute inset-0 w-full h-full object-cover opacity-40 z-0"
+        referrerPolicy="no-referrer"
       />
 
       {/* Background stars (simple CSS/SVG) - Keeping as overlay */}

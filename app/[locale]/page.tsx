@@ -11,6 +11,7 @@ export default function Home() {
         src="https://image.pollinations.ai/prompt/mystic%20cosmos%20starry%20night%20sky%20with%20nebula%20deep%20purple%20and%20gold%20cinematic%20lighting%20high%20resolution?width=1080&height=1920&nologo=true&seed=42"
         alt="Cosmic Background"
         className="absolute inset-0 w-full h-full object-cover z-0 opacity-80"
+        referrerPolicy="no-referrer"
       />
 
       {/* Dark Overlay for Text Readability */}
