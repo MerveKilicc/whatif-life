@@ -54,10 +54,9 @@ const ShareCard = forwardRef<HTMLDivElement>((props, ref) => {
     <div ref={ref} className="w-full max-w-[350px] mx-auto bg-[#16213e] text-white p-6 rounded-xl border-4 border-[#ffd700] shadow-2xl flex flex-col gap-6 relative overflow-hidden font-sans">
       {/* Background Texture */}
       <img
-        src="https://gen.pollinations.ai/image/minimalist%20dark%20blue%20astrology%20chart%20texture%20zodiac%20constellations%20subtle%20elegant?width=512&height=800&nologo=true&seed=42"
+        src="/images/bg-astrology.png"
         alt="bg"
         className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none z-0"
-        referrerPolicy="no-referrer"
       />
 
       {/* Header */}

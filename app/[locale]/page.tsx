@@ -6,12 +6,11 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-4 text-center relative overflow-hidden">
-      {/* Dynamic Background via Pollinations.ai */}
+      {/* Dynamic Background */}
       <img
-        src="https://gen.pollinations.ai/image/mystic%20cosmos%20starry%20night%20sky%20with%20nebula%20deep%20purple%20and%20gold%20cinematic%20lighting%20high%20resolution?width=1080&height=1920&nologo=true&seed=42"
+        src="/images/bg-landing.png"
         alt="Cosmic Background"
         className="absolute inset-0 w-full h-full object-cover z-0 opacity-80"
-        referrerPolicy="no-referrer"
       />
 
       {/* Dark Overlay for Text Readability */}
