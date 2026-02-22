@@ -83,7 +83,7 @@ export default function LoadingPage() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#16213e] text-white p-8 text-center relative overflow-hidden">
       {/* Background Image */}
       <img
-        src="https://image.pollinations.ai/prompt/minimalist%20dark%20blue%20astrology%20chart%20texture%20zodiac%20constellations%20subtle%20elegant?width=1080&height=1920&nologo=true&seed=42"
+        src="https://gen.pollinations.ai/image/minimalist%20dark%20blue%20astrology%20chart%20texture%20zodiac%20constellations%20subtle%20elegant?width=1080&height=1920&nologo=true&seed=42"
         alt="Loading Background"
         className="absolute inset-0 w-full h-full object-cover opacity-40 z-0"
         referrerPolicy="no-referrer"

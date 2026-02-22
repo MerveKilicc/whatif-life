@@ -92,7 +92,7 @@ export default function FinalPage() {
     <div className="min-h-screen bg-[#16213e] text-white flex flex-col items-center justify-center p-6 relative overflow-hidden">
       {/* Background Image */}
       <img
-        src="https://image.pollinations.ai/prompt/vintage%20mysterious%20library%20desk%20with%20celestial%20maps%20and%20candles%20dark%20mood%20cinematic?width=1080&height=1920&nologo=true&seed=42"
+        src="https://gen.pollinations.ai/image/vintage%20mysterious%20library%20desk%20with%20celestial%20maps%20and%20candles%20dark%20mood%20cinematic?width=1080&height=1920&nologo=true&seed=42"
         alt="Final Background"
         className="absolute inset-0 w-full h-full object-cover opacity-40 z-0"
         referrerPolicy="no-referrer"
