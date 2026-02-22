@@ -7,10 +7,9 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-4 text-center relative overflow-hidden">
       {/* Dynamic Background */}
-      <img
-        src="/images/bg-landing.png"
-        alt="Cosmic Background"
-        className="absolute inset-0 w-full h-full object-cover z-0 opacity-80"
+      <div
+        className="absolute inset-0 w-full h-full z-0 opacity-80 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/images/bg-landing.png')" }}
       />
 
       {/* Dark Overlay for Text Readability */}

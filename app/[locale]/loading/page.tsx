@@ -82,10 +82,9 @@ export default function LoadingPage() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#16213e] text-white p-8 text-center relative overflow-hidden">
       {/* Background Image */}
-      <img
-        src="/images/bg-astrology.png"
-        alt="Loading Background"
-        className="absolute inset-0 w-full h-full object-cover opacity-40 z-0"
+      <div
+        className="absolute inset-0 w-full h-full z-0 opacity-40 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/images/bg-astrology.png')" }}
       />
 
       {/* Background stars (simple CSS/SVG) - Keeping as overlay */}

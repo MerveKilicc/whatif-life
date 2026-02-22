@@ -53,10 +53,9 @@ const ShareCard = forwardRef<HTMLDivElement>((props, ref) => {
   return (
     <div ref={ref} className="w-full max-w-[350px] mx-auto bg-[#16213e] text-white p-6 rounded-xl border-4 border-[#ffd700] shadow-2xl flex flex-col gap-6 relative overflow-hidden font-sans">
       {/* Background Texture */}
-      <img
-        src="/images/bg-astrology.png"
-        alt="bg"
-        className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none z-0"
+      <div
+        className="absolute inset-0 w-full h-full z-0 opacity-20 bg-cover bg-center bg-no-repeat pointer-events-none"
+        style={{ backgroundImage: "url('/images/bg-astrology.png')" }}
       />
 
       {/* Header */}

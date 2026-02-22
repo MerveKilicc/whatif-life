@@ -91,10 +91,9 @@ export default function FinalPage() {
   return (
     <div className="min-h-screen bg-[#16213e] text-white flex flex-col items-center justify-center p-6 relative overflow-hidden">
       {/* Background Image */}
-      <img
-        src="/images/bg-final.png"
-        alt="Final Background"
-        className="absolute inset-0 w-full h-full object-cover opacity-40 z-0"
+      <div
+        className="absolute inset-0 w-full h-full z-0 opacity-40 bg-cover bg-center bg-no-repeat bg-[#16213e]"
+        style={{ backgroundImage: "url('/images/bg-final.png')" }}
       />
 
       <div className="absolute inset-0 opacity-20 pointer-events-none z-0" style={{ backgroundImage: 'radial-gradient(white 1px, transparent 1px)', backgroundSize: '50px 50px' }} />

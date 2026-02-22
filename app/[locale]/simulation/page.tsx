@@ -73,10 +73,9 @@ export default function SimulationPage() {
     return (
         <div className="min-h-screen bg-[#16213e] text-white flex flex-col items-center relative overflow-x-hidden overflow-y-auto">
             {/* Background Image */}
-            <img
-                src="/images/bg-astrology.png"
-                alt="Simulation Background"
-                className="absolute inset-0 w-full h-full object-cover opacity-20 z-0 pointer-events-none"
+            <div
+                className="absolute inset-0 w-full h-full z-0 opacity-20 bg-cover bg-center bg-no-repeat pointer-events-none"
+                style={{ backgroundImage: "url('/images/bg-astrology.png')" }}
             />
 
             {/* Top Bar - Stats */}
