@@ -7,12 +7,12 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-4 text-center relative overflow-hidden">
       {/* Dynamic Background via Pollinations.ai */}
-      <img 
-        src="https://image.pollinations.ai/prompt/mystic%20cosmos%20starry%20night%20sky%20with%20nebula%20deep%20purple%20and%20gold%20cinematic%20lighting%20high%20resolution?width=1080&height=1920&nologo=true"
+      <img
+        src="https://image.pollinations.ai/prompt/mystic%20cosmos%20starry%20night%20sky%20with%20nebula%20deep%20purple%20and%20gold%20cinematic%20lighting%20high%20resolution?width=1080&height=1920&nologo=true&seed=42"
         alt="Cosmic Background"
         className="absolute inset-0 w-full h-full object-cover z-0 opacity-80"
       />
-      
+
       {/* Dark Overlay for Text Readability */}
       <div className="absolute inset-0 bg-black/40 z-0 pointer-events-none" />
 
@@ -23,9 +23,9 @@ export default function Home() {
         <p className="text-xl md:text-2xl text-gray-200 font-light drop-shadow-md">
           {t('subheadline')}
         </p>
-        
-        <Link 
-          href="/input" 
+
+        <Link
+          href="/input"
           className="mt-8 px-8 py-4 bg-[#533483]/90 hover:bg-[#6b42a9] text-white rounded-full text-lg font-semibold transition-all shadow-[0_0_20px_rgba(83,52,131,0.6)] hover:shadow-[0_0_30px_rgba(83,52,131,0.9)] backdrop-blur-sm border border-[#ffffff20]"
         >
           {t('cta')}
